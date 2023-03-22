@@ -6,11 +6,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.omg.PortableServer.POAPackage.AdapterAlreadyExists;
+
 import in.ineuron.dto.BookDTO;
 import in.ineuron.factory.BookServiceFactory;
 import in.ineuron.service.IBookService;
+import in.ineuron.util.JdbcUtil;
 import in.ineuron.util.Util.BookOperationStatus;
-
 
 public class Controller extends HttpServlet
 {
@@ -20,6 +22,9 @@ public class Controller extends HttpServlet
 	public void init() throws ServletException
 	{
 		System.out.println("Servlet intilization");
+
+		// load jdbc Driver
+		JdbcUtil.loadJDBCDriver();
 	}
 
 	@Override
@@ -46,11 +51,18 @@ public class Controller extends HttpServlet
 			bookDTO.setTitle(request.getParameter("title"));
 			bookDTO.setAuthor(request.getParameter("author"));
 			bookDTO.setCategory(request.getParameter("category"));
-			bookDTO.setTotalQuantity(Integer.parseInt(request.getParameter("totalQuantity")));
+			bookDTO.setAvailableQuantity(Integer.parseInt(request.getParameter("availableQuantity")));
 
 			System.out.println(bookDTO);
 			IBookService bookService = BookServiceFactory.getBookService();
-			BookOperationStatus status = bookService.saveBook(bookDTO);
+			BookOperationStatus insertOperationStatus = bookService.saveBook(bookDTO);
+
+			BookOperationStatus success = BookOperationStatus.SUCCESS;
+
+			if (success.equals(insertOperationStatus))
+				System.out.println("operration success");
+			else
+				System.out.println("Failed");
 		}
 
 	}

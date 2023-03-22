@@ -17,7 +17,7 @@ public class BookServiceImpl implements IBookService
 		bookBO.setTitle(bookDTO.getTitle());
 		bookBO.setAuthor(bookDTO.getAuthor());
 		bookBO.setCategory(bookDTO.getCategory());
-		bookBO.setTotalQuantity(bookDTO.getTotalQuantity());
+		bookBO.setAvailableQuantity(bookDTO.getAvailableQuantity());
 		
 		IBookDAO bookDAO = BookDAOFactory.getBookDAO();
 		BookOperationStatus status = bookDAO.saveBook(bookBO);

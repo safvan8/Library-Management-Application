@@ -7,7 +7,7 @@ public class BookBO
 	private String title;
 	private String author;
 	private String category;
-	private Integer totalQuantity;
+	private Integer availableQuantity;
 
 	public Integer getBookId()
 	{
@@ -49,20 +49,20 @@ public class BookBO
 		this.category = category;
 	}
 
-	public Integer getTotalQuantity()
+	public Integer getAvailableQuantity()
 	{
-		return totalQuantity;
+		return availableQuantity;
 	}
 
-	public void setTotalQuantity(Integer totalQuantity)
+	public void setAvailableQuantity(Integer availableQuantity)
 	{
-		this.totalQuantity = totalQuantity;
+		this.availableQuantity = availableQuantity;
 	}
 
 	@Override
 	public String toString()
 	{
 		return "BookDTO [bookId=" + bookId + ", title=" + title + ", author=" + author + ", category=" + category
-				+ ", totalQuantity=" + totalQuantity + "]";
+				+ ", availableQuantity=" + availableQuantity + "]";
 	}
 }
