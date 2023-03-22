@@ -41,10 +41,10 @@ public class BookServiceImpl implements IBookService
 	}
 
 	@Override
-	public BookOperationStatus updateBookById(Integer bookId)
+	public BookOperationStatus updateBook(BookBO bookBO)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		IBookDAO bookDAO = BookDAOFactory.getBookDAO();
+		return bookDAO.updateBook(bookBO);
 	}
 	
 }

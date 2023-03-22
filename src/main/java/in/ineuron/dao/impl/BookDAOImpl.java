@@ -14,6 +14,7 @@ public class BookDAOImpl implements IBookDAO
 {
 	private static final String INSERT_BOOK_QUERY = "INSERT INTO library_management.books "
 			+ "(title,author,category,available_quantity) VALUES (?,?,?,?)";
+	private static final String UPDATE_BOOK_QUERY = "UPDATE library_management.books SET title=?,author=?,category=?,available_quantity=? WHERE book_id=?";
 	private static final String GET_BOOK_QUERY = "SELECT * FROM library_management.books " + "WHERE book_id = ?";
 	private static final String DELETE_BOOK_QUERY = "DELETE FROM library_management.books " + "WHERE book_id = ?";
 
@@ -128,10 +129,40 @@ public class BookDAOImpl implements IBookDAO
 	}
 
 	@Override
-	public BookOperationStatus updateBookById(Integer bookId)
+	public BookOperationStatus updateBook(BookBO bookBO)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		connection = JdbcUtil.getDatabasePhysicalConnection();
+
+		BookOperationStatus updateOperationStatus = null;
+
+		try
+		{
+			preparedStatement = connection.prepareStatement(UPDATE_BOOK_QUERY);
+
+			// setting placeholder values in preparedStatement
+			preparedStatement.setString(1, bookBO.getTitle());
+			preparedStatement.setString(2, bookBO.getAuthor());
+			preparedStatement.setString(3, bookBO.getCategory());
+			preparedStatement.setInt(4, bookBO.getAvailableQuantity());
+			preparedStatement.setInt(5, bookBO.getBookId());
+
+			// executing query
+			int updateRowCount = preparedStatement.executeUpdate();
+
+			if (updateRowCount > 0)
+				updateOperationStatus = BookOperationStatus.SUCCESS;
+			else
+				updateOperationStatus = BookOperationStatus.FAILED;
+
+		} catch (SQLException se)
+		{
+			se.printStackTrace();
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return updateOperationStatus;
 	}
 
 }

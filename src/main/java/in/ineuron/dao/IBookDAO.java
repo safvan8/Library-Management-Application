@@ -12,6 +12,6 @@ public interface IBookDAO
 
 	public abstract BookOperationStatus deleteBookById(Integer bookId);
 
-	public abstract BookOperationStatus updateBookById(Integer bookId);
-
+	public abstract BookOperationStatus updateBook(BookBO bookBO);
+	
 }

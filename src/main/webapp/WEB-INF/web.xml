@@ -13,6 +13,7 @@
 	<servlet>
 		<servlet-name>controllerServlet</servlet-name>
 		<servlet-class>in.ineuron.controller.Controller</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>

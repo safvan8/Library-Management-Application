@@ -1,6 +1,8 @@
 package in.ineuron.controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -72,32 +74,80 @@ public class Controller extends HttpServlet
 
 		} else if (uri.endsWith("deleteBookForm"))
 		{
-			
+
 			Integer bookId = Integer.parseInt(request.getParameter("bookId"));
 			System.out.println("Controller................0");
 
 			IBookService bookService = BookServiceFactory.getBookService();
-			
+
 			BookBO existingBook = bookService.getBookById(bookId);
-			
+
 			System.out.println("Controller................1");
-			
+
 			BookOperationStatus deleteStatus = null;
 
 			BookOperationStatus success = BookOperationStatus.SUCCESS;
 
-			if (existingBook != null) {
+			if (existingBook != null)
+			{
 				deleteStatus = bookService.deleteBookById(bookId);
 				System.out.println("Controller................2");
 
-			}
-			else
+			} else
 				System.out.println("No records for the given ID : " + bookId);
 
 			if (success.equals(deleteStatus))
 				System.out.println("delete operartion success");
 			else
 				System.out.println("delete operation failed");
+		} else if (uri.endsWith("updateBookForm"))
+		{
+			Integer bookId = Integer.parseInt(request.getParameter("bookId"));
+
+			System.out.println("Controller.................................5");
+			IBookService bookService = BookServiceFactory.getBookService();
+
+			System.out.println("Controller.................................6");
+
+			BookBO existingBookForUpdate = bookService.getBookById(bookId);
+
+			if (existingBookForUpdate != null)
+			{
+				System.out.println("Controller.................................7");
+
+				request.setAttribute("existingBookForUpdate", existingBookForUpdate);
+
+				try
+				{
+
+					System.out.println("Controller.................................8");
+
+					request.getRequestDispatcher("/editBookForm.jsp").forward(request, response);
+				} catch (ServletException | IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} else if (uri.endsWith("editBookForm"))
+		{
+			BookBO bookBO = new BookBO();
+			bookBO.setBookId(Integer.parseInt(request.getParameter("bookId")));
+			bookBO.setTitle(request.getParameter("title"));
+			bookBO.setAuthor(request.getParameter("author"));
+			bookBO.setCategory(request.getParameter("category"));
+			bookBO.setAvailableQuantity(Integer.parseInt(request.getParameter("availableQuantity")));
+			
+			System.out.println(bookBO);
+			IBookService bookService = BookServiceFactory.getBookService();
+			BookOperationStatus updateOperationStatus = bookService.updateBook(bookBO);
+
+			BookOperationStatus success = BookOperationStatus.SUCCESS;
+
+			if (success.equals(updateOperationStatus))
+				System.out.println("Update operration success");
+			else
+				System.out.println("Update Operation Failed");
 		}
 
 	}
