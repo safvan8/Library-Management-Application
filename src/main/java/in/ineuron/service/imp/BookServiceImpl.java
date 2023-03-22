@@ -27,16 +27,17 @@ public class BookServiceImpl implements IBookService
 
 	@Override
 	public BookBO getBookById(Integer bookId)
-	{
-		// TODO Auto-generated method stub
-		return null;
+	{	
+		IBookDAO bookDAO = BookDAOFactory.getBookDAO();
+		return bookDAO.getBookById(bookId);
+		
 	}
 
 	@Override
 	public BookOperationStatus deleteBookById(Integer bookId)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		IBookDAO bookDAO = BookDAOFactory.getBookDAO();
+		return bookDAO.deleteBookById(bookId);
 	}
 
 	@Override

@@ -62,7 +62,7 @@ public class BookBO
 	@Override
 	public String toString()
 	{
-		return "BookDTO [bookId=" + bookId + ", title=" + title + ", author=" + author + ", category=" + category
+		return "BookBO [bookId=" + bookId + ", title=" + title + ", author=" + author + ", category=" + category
 				+ ", availableQuantity=" + availableQuantity + "]";
 	}
 }

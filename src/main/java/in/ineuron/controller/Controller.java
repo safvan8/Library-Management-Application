@@ -6,8 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.omg.PortableServer.POAPackage.AdapterAlreadyExists;
-
+import in.ineuron.bo.BookBO;
 import in.ineuron.dto.BookDTO;
 import in.ineuron.factory.BookServiceFactory;
 import in.ineuron.service.IBookService;
@@ -63,6 +62,42 @@ public class Controller extends HttpServlet
 				System.out.println("operration success");
 			else
 				System.out.println("Failed");
+		} else if (uri.endsWith("readBookForm"))
+		{
+			Integer bookId = Integer.parseInt(request.getParameter("bookId"));
+			IBookService bookService = BookServiceFactory.getBookService();
+			BookBO bookBO = bookService.getBookById(bookId);
+
+			System.out.println("Book :" + bookBO);
+
+		} else if (uri.endsWith("deleteBookForm"))
+		{
+			
+			Integer bookId = Integer.parseInt(request.getParameter("bookId"));
+			System.out.println("Controller................0");
+
+			IBookService bookService = BookServiceFactory.getBookService();
+			
+			BookBO existingBook = bookService.getBookById(bookId);
+			
+			System.out.println("Controller................1");
+			
+			BookOperationStatus deleteStatus = null;
+
+			BookOperationStatus success = BookOperationStatus.SUCCESS;
+
+			if (existingBook != null) {
+				deleteStatus = bookService.deleteBookById(bookId);
+				System.out.println("Controller................2");
+
+			}
+			else
+				System.out.println("No records for the given ID : " + bookId);
+
+			if (success.equals(deleteStatus))
+				System.out.println("delete operartion success");
+			else
+				System.out.println("delete operation failed");
 		}
 
 	}
